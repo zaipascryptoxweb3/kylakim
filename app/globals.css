@@ -264,3 +264,53 @@ body {
   z-index: 1;
   pointer-events: none;
 }
+
+/* ── Loading Screen ─────────────────────────────────────────────────── */
+
+@keyframes ken-burns {
+  0%   { transform: scale(1)    translateX(0)    translateY(0); }
+  50%  { transform: scale(1.08) translateX(-1%)  translateY(-1%); }
+  100% { transform: scale(1.05) translateX(1%)   translateY(0.5%); }
+}
+
+@keyframes loading-bar {
+  0%   { width: 0%; }
+  60%  { width: 80%; }
+  85%  { width: 92%; }
+  100% { width: 100%; }
+}
+
+@keyframes loader-fade-out {
+  0%   { opacity: 1; }
+  100% { opacity: 0; }
+}
+
+@keyframes ping-ring {
+  0%   { transform: scale(0.9); opacity: 0.7; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes text-reveal {
+  0%   { opacity: 0; letter-spacing: 0.6em; }
+  100% { opacity: 1; letter-spacing: 0.35em; }
+}
+
+.loading-photo {
+  animation: ken-burns 8s ease-in-out infinite alternate;
+}
+
+.loading-bar-fill {
+  animation: loading-bar 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.loading-ping {
+  animation: ping-ring 1.6s ease-out infinite;
+}
+
+.loading-name-reveal {
+  animation: text-reveal 1s ease-out 0.4s both;
+}
+
+.loader-exit {
+  animation: loader-fade-out 0.7s ease-in forwards;
+}

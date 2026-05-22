@@ -1042,9 +1042,160 @@ const decorativeSparklePositions = [
   { top: "75%", left: "92%" },
 ];
 
+// ─── Loading Screen ──────────────────────────────────────────────────────────
+
+function LoadingScreen({ onComplete }: { onComplete: () => void }) {
+  const [exiting, setExiting] = useState(false);
+
+  useEffect(() => {
+    // Hold the loader for 2.6s, then fade-out for 0.7s before hiding
+    const exitTimer = setTimeout(() => setExiting(true), 2600);
+    const doneTimer = setTimeout(() => onComplete(), 3300);
+    return () => {
+      clearTimeout(exitTimer);
+      clearTimeout(doneTimer);
+    };
+  }, [onComplete]);
+
+  return (
+    <div
+      className={`fixed inset-0 z-[9999] flex flex-col items-center justify-center overflow-hidden${exiting ? " loader-exit pointer-events-none" : ""
+        }`}
+      style={{ background: "#02040a" }}
+    >
+      {/* Full-bleed photo with ken-burns */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="loading-photo absolute inset-0">
+          <Image
+            src="/photos/kyla-loading.jpg"
+            alt="Kyla Kim"
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover object-center"
+          />
+        </div>
+        {/* Gradient overlays — darker at bottom for text legibility, light at top to show photo */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "linear-gradient(to top, rgba(2,4,10,0.92) 0%, rgba(2,4,10,0.35) 40%, rgba(2,4,10,0.15) 100%)",
+          }}
+        />
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              "radial-gradient(ellipse at 50% 60%, rgba(244,114,182,0.12) 0%, transparent 65%)",
+          }}
+        />
+      </div>
+
+      {/* Center content */}
+      <div className="relative z-10 flex flex-col items-center gap-8 px-6 text-center">
+        {/* Ping ring around monogram */}
+        <div className="relative flex items-center justify-center">
+          {/* Outer ping rings */}
+          <span
+            className="loading-ping absolute h-28 w-28 rounded-full"
+            style={{ border: "1px solid rgba(244,114,182,0.45)" }}
+          />
+          <span
+            className="loading-ping absolute h-28 w-28 rounded-full"
+            style={{
+              border: "1px solid rgba(192,132,252,0.35)",
+              animationDelay: "0.55s",
+            }}
+          />
+          {/* Monogram circle */}
+          <motion.div
+            initial={{ scale: 0.6, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 0.8, ease: [0.21, 0.47, 0.32, 0.98] }}
+            className="relative flex h-20 w-20 items-center justify-center rounded-full"
+            style={{
+              background:
+                "radial-gradient(circle, rgba(244,114,182,0.18) 0%, rgba(192,132,252,0.08) 100%)",
+              border: "1px solid rgba(244,114,182,0.4)",
+              boxShadow:
+                "0 0 40px rgba(244,114,182,0.3), 0 0 80px rgba(192,132,252,0.15), inset 0 0 20px rgba(244,114,182,0.08)",
+            }}
+          >
+            <span
+              className="font-serif text-4xl font-semibold italic"
+              style={{
+                background: "linear-gradient(135deg, #ffffff, #f9a8d4, #e879f9)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+              }}
+            >
+              K
+            </span>
+          </motion.div>
+        </div>
+
+        {/* Name */}
+        <div className="flex flex-col items-center gap-2">
+          <p
+            className="loading-name-reveal text-xs font-bold uppercase text-white"
+            style={{ letterSpacing: "0.35em", textShadow: "0 0 20px rgba(244,114,182,0.6)" }}
+          >
+            Kyla Kim C. Sto. Domingo
+          </p>
+          <motion.p
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.9 }}
+            className="font-serif text-2xl font-light italic text-white"
+          >
+            Class of 2026
+          </motion.p>
+        </div>
+
+        {/* Progress bar */}
+        <motion.div
+          initial={{ opacity: 0, scaleX: 0.6 }}
+          animate={{ opacity: 1, scaleX: 1 }}
+          transition={{ duration: 0.5, delay: 0.5 }}
+          className="w-56 overflow-hidden rounded-full"
+          style={{
+            height: "2px",
+            background: "rgba(255,255,255,0.08)",
+          }}
+        >
+          <div
+            className="loading-bar-fill h-full rounded-full"
+            style={{
+              background: "linear-gradient(90deg, #f472b6, #c084fc, #818cf8)",
+              boxShadow: "0 0 8px rgba(244,114,182,0.6)",
+            }}
+          />
+        </motion.div>
+
+        {/* Tagline */}
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.8, delay: 1.2 }}
+          className="text-xs text-white/75"
+          style={{ letterSpacing: "0.2em" }}
+        >
+          A celebration — just for her ✨
+        </motion.p>
+      </div>
+
+      {/* Floating hearts during load */}
+      <LiveHeartsCanvas />
+    </div>
+  );
+}
+
 // ─── Main Page ─────────────────────────────────────────────────────────────────
 
 export default function KylaGraduationPage() {
+  const [isLoading, setIsLoading] = useState(true);
   const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null);
   const [celebrationOpen, setCelebrationOpen] = useState(false);
   const [heroLoaded, setHeroLoaded] = useState(false);
@@ -1056,18 +1207,23 @@ export default function KylaGraduationPage() {
   const heroY = useTransform(scrollYProgress, [0, 1], ["0%", "25%"]);
   const heroOpacity = useTransform(scrollYProgress, [0, 0.7], [1, 0]);
 
+  const handleLoadComplete = useCallback(() => {
+    setIsLoading(false);
+    setTimeout(() => setHeroLoaded(true), 150);
+  }, []);
+
   useEffect(() => {
     document.body.style.overflow = overlayOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
   }, [overlayOpen]);
 
-  useEffect(() => {
-    const timer = setTimeout(() => setHeroLoaded(true), 100);
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <>
+      {/* ── LOADING SCREEN ──────────────────────────────────────── */}
+      <AnimatePresence>
+        {isLoading && <LoadingScreen onComplete={handleLoadComplete} />}
+      </AnimatePresence>
+
       <CursorSparkle />
       <FloatingParticles />
       <AmbientOrbs />
