@@ -111,6 +111,40 @@ const galleryPhotos: GalleryPhoto[] = [
     aspect: "square",
     featured: true,
   },
+  {
+    id: "thumbs-up",
+    src: "/photos/kyla-10.jpg",
+    alt: "Kyla Kim C. Sto. Domingo smiling with thumbs up",
+    title: "Seal of Approval",
+    caption: "That grin and a thumbs-up — she already knows she made it.",
+    aspect: "portrait",
+  },
+  {
+    id: "store-day",
+    src: "/photos/kyla-11.jpg",
+    alt: "Kyla Kim C. Sto. Domingo in a store with jacket",
+    title: "Off-Duty Cool",
+    caption: "Even the most casual errands become a whole moment.",
+    aspect: "portrait",
+  },
+  {
+    id: "cap-and-shades",
+    src: "/photos/kyla-12.jpg",
+    alt: "Kyla Kim C. Sto. Domingo in cap and sunglasses outdoors",
+    title: "Sun-Kissed",
+    caption: "Cap, shades, golden hour — she doesn't even have to try.",
+    aspect: "portrait",
+    featured: true,
+  },
+  {
+    id: "garden-collage",
+    src: "/photos/kyla-13.jpg",
+    alt: "Kyla Kim C. Sto. Domingo four-panel selfie collage in garden",
+    title: "Four Moods",
+    caption: "Four expressions, one beautiful face — pick your favorite.",
+    aspect: "square",
+    featured: true,
+  },
 ];
 
 const milestones = [
@@ -1303,12 +1337,7 @@ export default function KylaGraduationPage() {
                   style={{ perspective: 1000 }}
                 >
                   <span
-                    className={`relative block overflow-hidden bg-[#10091c] transition-all duration-500 group-hover:-translate-y-2 ${photo.aspect === "landscape"
-                      ? "aspect-[16/10]"
-                      : photo.aspect === "square"
-                        ? "aspect-square"
-                        : "aspect-[4/5]"
-                      }`}
+                    className="relative block overflow-hidden bg-[#10091c] transition-all duration-500 group-hover:-translate-y-2 aspect-[9/16]"
                     style={{
                       borderRadius: "1.75rem",
                       border: "1px solid rgba(255,255,255,0.07)",
@@ -1362,6 +1391,123 @@ export default function KylaGraduationPage() {
           </div>
         </section>
 
+        {/* ── MOMENTS IN MOTION (Video Gallery) ─────────────────── */}
+        <section
+          className="relative overflow-hidden px-6 py-24 sm:px-8 lg:px-12"
+          style={{
+            background: "linear-gradient(180deg, #04050d 0%, #070518 15%, #070518 85%, #04050d 100%)",
+          }}
+        >
+          <div
+            className="pointer-events-none absolute inset-0"
+            style={{
+              background: "radial-gradient(ellipse at top right, rgba(232,121,249,0.1) 0%, transparent 45%), radial-gradient(ellipse at 20% 80%, rgba(244,114,182,0.08) 0%, transparent 40%)",
+            }}
+          />
+
+          <div className="relative mx-auto max-w-7xl">
+            <RevealSection className="grid gap-6 lg:grid-cols-[1fr_0.55fr] lg:items-end">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-[0.4em] text-pink-400">
+                  Video Collection
+                </p>
+                <h2
+                  className="font-serif mt-4 max-w-3xl font-light tracking-tight text-white glow-heading"
+                  style={{ fontSize: "clamp(2.5rem, 6vw, 4.5rem)", lineHeight: 1.1 }}
+                >
+                  Moments in{" "}
+                  <span className="italic text-pink-300">Motion</span>
+                </h2>
+              </div>
+              <p className="max-w-md text-sm leading-8 text-slate-400">
+                Fleeting glimpses that a still frame could never hold — the laughter, the movement,
+                the life behind every milestone.
+              </p>
+            </RevealSection>
+
+            <div className="mt-14 grid grid-cols-2 gap-6 md:grid-cols-4">
+              {[
+                { id: "vid-1", label: "Sweetest Milestones", src: "/videos/placeholder-1.mp4" },
+                { id: "vid-2", label: "In the Details", src: "/videos/placeholder-2.mp4" },
+                { id: "vid-3", label: "Daily Hues", src: "/videos/placeholder-3.mp4" },
+                { id: "vid-4", label: "Twilight Thoughts", src: "/videos/placeholder-4.mp4" },
+              ].map((video, i) => (
+                <motion.div
+                  key={video.id}
+                  initial={{ opacity: 0, y: 40 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-60px" }}
+                  transition={{ duration: 0.7, delay: i * 0.1 }}
+                  className="group relative overflow-hidden rounded-2xl transition-all duration-500"
+                  style={{
+                    border: "1px solid rgba(255,255,255,0.07)",
+                    boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
+                  }}
+                >
+                  {/* Hover glow border overlay */}
+                  <div
+                    className="pointer-events-none absolute inset-0 z-10 rounded-2xl opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                    style={{
+                      boxShadow: "inset 0 0 0 2px rgba(232,121,249,0.4), 0 0 30px rgba(232,121,249,0.15)",
+                    }}
+                  />
+
+                  <div className="relative aspect-[9/16] overflow-hidden rounded-2xl transition-transform duration-500 group-hover:scale-105">
+                    {/* Placeholder gradient background (visible when no video loads) */}
+                    <div
+                      className="absolute inset-0 flex items-center justify-center"
+                      style={{
+                        background: `linear-gradient(135deg, rgba(${100 + i * 25},${40 + i * 15},${180 - i * 10},0.6), rgba(${60 + i * 20},${20 + i * 10},${140 - i * 8},0.8))`,
+                      }}
+                    >
+                      <div className="text-center">
+                        <motion.div
+                          animate={{ scale: [1, 1.1, 1], opacity: [0.5, 0.8, 0.5] }}
+                          transition={{ duration: 3, repeat: Infinity, delay: i * 0.4 }}
+                          className="mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-full"
+                          style={{
+                            background: "rgba(244,114,182,0.15)",
+                            border: "1px solid rgba(244,114,182,0.3)",
+                            boxShadow: "0 0 25px rgba(244,114,182,0.2)",
+                          }}
+                        >
+                          <Camera className="h-6 w-6 text-pink-400" />
+                        </motion.div>
+                        <p className="text-xs font-bold uppercase tracking-[0.3em] text-pink-300/70">
+                          {video.label}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Video element — swap src with your real .mp4 files */}
+                    <video
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="absolute inset-0 h-full w-full object-cover"
+                      src={video.src}
+                    />
+
+                    {/* Bottom gradient overlay */}
+                    <div
+                      className="absolute inset-0"
+                      style={{ background: "linear-gradient(to top, rgba(0,0,0,0.5) 0%, transparent 50%)" }}
+                    />
+                  </div>
+
+                  {/* Label below video */}
+                  <div className="px-4 py-3">
+                    <span className="font-serif text-lg font-semibold italic text-white transition-colors group-hover:text-pink-200">
+                      {video.label}
+                    </span>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── LOVE LETTER ───────────────────────────────────────── */}
         <LoveLetterSection />
 
@@ -1395,10 +1541,10 @@ export default function KylaGraduationPage() {
             <div className="relative grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
               {/* Timeline connecting line (visible on large screens) */}
               <div className="absolute top-1/2 left-10 right-10 -translate-y-1/2 h-0.5 hidden lg:block pointer-events-none"
-                   style={{
-                     background: "linear-gradient(90deg, rgba(244,114,182,0) 0%, rgba(244,114,182,0.2) 20%, rgba(192,132,252,0.2) 80%, rgba(192,132,252,0) 100%)",
-                     boxShadow: "0 0 10px rgba(244,114,182,0.2)"
-                   }}
+                style={{
+                  background: "linear-gradient(90deg, rgba(244,114,182,0) 0%, rgba(244,114,182,0.2) 20%, rgba(192,132,252,0.2) 80%, rgba(192,132,252,0) 100%)",
+                  boxShadow: "0 0 10px rgba(244,114,182,0.2)"
+                }}
               />
               {milestones.map((item, i) => (
                 <div key={item.title} className="relative z-10">
