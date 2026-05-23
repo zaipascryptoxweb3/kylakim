@@ -1048,7 +1048,7 @@ function LoadingScreen({ onComplete }: { onComplete: () => void }) {
   const [exiting, setExiting] = useState(false);
 
   useEffect(() => {
-    // Hold the loader for 2.6s, then fade-out for 0.7s before hiding
+    // Hold the loader for 3s, then fade-out for 0.7s before hiding
     const exitTimer = setTimeout(() => setExiting(true), 2600);
     const doneTimer = setTimeout(() => onComplete(), 3300);
     return () => {
@@ -1788,7 +1788,7 @@ export default function KylaGraduationPage() {
               whileTap={{ scale: 0.97 }}
             >
               <Flower2 className="h-4 w-4" />
-              Celebrate Her
+              Let's Celebrate
               <Heart className="h-4 w-4" />
             </motion.button>
           </RevealSection>
@@ -1804,7 +1804,7 @@ export default function KylaGraduationPage() {
             <span className="text-pink-500 heartbeat inline-block">♥</span>{" "}
             for{" "}
             <span className="text-pink-400">Kyla Kim C. Sto. Domingo</span>
-            {" · "}Class of 2026
+            {" "} by <a href="https://www.instagram.com/zaipasxxv/" target="_blank" rel="noopener noreferrer"><b><span className="text-white">Zaipas</span></b></a>
           </p>
         </footer>
       </main>
